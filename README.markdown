@@ -1,48 +1,56 @@
-= permissions
+# permissions
 
 A permissions plugin for Rails.
 
 It lets you mark specific controller methods as accessible only by users
 who are members of specific groups.
 
-== Installing
+## Installing
 
-  >> script/plugin install git://github.com/epitron/permissions.git
+> script/plugin install git://github.com/epitron/permissions.git
 
-== Usage
+## Usage
 
-This plugin adds the "permit" method to ActionController::Base, so that you can
-specify permissions. It works almost the same as `before_filter`.
+This plugin adds the `permit` classmethod to `ActionController::Base`, so that you can
+specify permissions in your controllers. It works almost the same as `before_filter`.
 
-The permit method says "allow users with these roles to access only these actions", or,
-"deny users with these roles from accessing these actions". 
+    permit(roles, options={})
 
-  permit(roles, options={})
+For example:
 
-`roles` is a symbol or array of symbols (eg: `[:admin, :moderator]`).
+    permit :user, :only=>[:show, :index]
+    
+This rule gives users access to read in your standard CRUD controller.
 
-The permission checks `current_user.roles`, and sees if any of the roles match. If they do,
-it activates the rule.
+You can specify multiple `roles` at the same time:
 
-If the role is `:all`, the permission will apply to all users. 
+    permit [:admin, :manager]
+    
+This will permit admin and managers for all actions.
+
+The plugin checks the user's permissions by reading `current_user.roles`
+and seeing if any of the roles on the user match the roles on the rule.
+If they do, the rule becomes active.
+
+You can specify a rule that applies to all users with the special role `:all`.
   
 The `options` you can pass are:
 
 * :only => <symbol or array of symbols> -- only protect specified method(s)
 * :except => <symbol or array of symbols> -- protect everything except specified method(s)
 
-== Examples
+## More Examples
 
-Allows all users to access all methods (overrides previous permissions):
+Allow all users to access all methods (overrides previous permissions):
 
-  permit :all
+    permit :all
 
 Allow the user with role :role to access only the "show" method:
 
-  permit :role, :only => :show
+    permit :role, :only => :show
   
 Users with the roles :role2 or :role3 can access all methods except
 :method1 and :method2.
   
-  permit [:role2, :role3], :except => [:method1, :method2]
+    permit [:role2, :role3], :except => [:method1, :method2]
 
