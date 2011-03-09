@@ -12,7 +12,24 @@ who are members of specific groups.
 == Usage
 
 This plugin adds the "permit" method to ActionController::Base, so that you can
-specify permissions. It works similar to before filter.
+specify permissions. It works almost the same as `before_filter`.
+
+The permit method says "allow users with these roles to access only these actions", or,
+"deny users with these roles from accessing these actions". 
+
+  permit(roles, options={})
+
+`roles` is a symbol or array of symbols (eg: `[:admin, :moderator]`).
+
+The permission checks `current_user.roles`, and sees if any of the roles match. If they do,
+it activates the rule.
+
+If the role is `:all`, the permission will apply to all users. 
+  
+The `options` you can pass are:
+
+* :only => <symbol or array of symbols> -- only protect specified method(s)
+* :except => <symbol or array of symbols> -- protect everything except specified method(s)
 
 == Examples
 
