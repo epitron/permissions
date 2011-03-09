@@ -1,0 +1,31 @@
+= permissions
+
+A permissions plugin for Rails.
+
+It lets you mark specific controller methods as accessible only by users
+who are members of specific groups.
+
+== Installing
+
+  >> script/plugin install git://github.com/epitron/permissions.git
+
+== Usage
+
+This plugin adds the "permit" method to ActionController::Base, so that you can
+specify permissions. It works similar to before filter.
+
+== Examples
+
+Allows all users to access all methods (overrides previous permissions):
+
+  permit :all
+
+Allow the user with role :role to access only the "show" method:
+
+  permit :role, :only => :show
+  
+Users with the roles :role2 or :role3 can access all methods except
+:method1 and :method2.
+  
+  permit [:role2, :role3], :except => [:method1, :method2]
+
