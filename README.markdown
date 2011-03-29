@@ -36,8 +36,8 @@ You can specify a rule that applies to all users with the special role `:all`.
   
 The `options` you can pass are:
 
-* :only => <symbol or array of symbols> -- only protect specified method(s)
-* :except => <symbol or array of symbols> -- protect everything except specified method(s)
+* `:only => <symbol or array of symbols>` -- only protect specified method(s)
+* `:except => <symbol or array of symbols>` -- protect everything except specified method(s)
 
 ## More Examples
 
